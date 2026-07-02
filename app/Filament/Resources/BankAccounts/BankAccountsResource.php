@@ -33,6 +33,11 @@ class BankAccountsResource extends Resource
                 TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+
+                TextInput::make('balance')
+                    ->required()
+                    ->default(0)
+
             ]);
     }
 
@@ -43,6 +48,11 @@ class BankAccountsResource extends Resource
             ->columns([
                 TextColumn::make('name')
                     ->searchable(),
+
+                TextColumn::make('balance')
+                    ->sortable()
+                    ->money('PHP')
+
             ])
             ->filters([
                 //
