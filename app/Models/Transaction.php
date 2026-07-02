@@ -16,6 +16,7 @@ class Transaction extends Model
         'bank_account_id',
         'category_id',
         'budget_id',
+        'type',
         'description',
         'amount',
         'note',

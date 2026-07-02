@@ -13,6 +13,8 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Override;
 
 class TransactionResource extends Resource
 {
@@ -46,5 +48,11 @@ class TransactionResource extends Resource
             'create' => CreateTransaction::route('/create'),
             'edit' => EditTransaction::route('/{record}/edit'),
         ];
+    }
+
+    #[Override]
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where('user_id', filament()->auth()->id());
     }
 }
