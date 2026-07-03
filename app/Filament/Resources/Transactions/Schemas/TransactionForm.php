@@ -2,15 +2,15 @@
 
 namespace App\Filament\Resources\Transactions\Schemas;
 
+use App\Enums\TransactionType;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Schemas\Schema;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Schemas\Components\Group;
-use App\Enums\TransactionType;
 use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Schema;
 
 class TransactionForm
 {
@@ -38,7 +38,7 @@ class TransactionForm
                         ->required()
                         ->numeric()
                         ->minValue(0)
-                        ->prefix(fn(Get $get) => $get('type') === TransactionType::Income ? '+' : '-')
+                        ->prefix(fn (Get $get) => $get('type') === TransactionType::Income ? '+' : '-')
                         ->afterStateHydrated(function (TextInput $component, $state) {
                             if ($state !== null) {
                                 $component->state(abs($state));
@@ -48,7 +48,7 @@ class TransactionForm
                             $amount = abs((float) $state);
 
                             return $get('type') === TransactionType::Income ? $amount : -$amount;
-                        })
+                        }),
 
                 ])->columns(2),
 
@@ -59,24 +59,24 @@ class TransactionForm
                     ->relationship(
                         'bankAccount',
                         'name',
-                        fn($query) => $query->where('user_id', filament()->auth()->id())
+                        fn ($query) => $query->where('user_id', filament()->auth()->id())
                     ),
 
                 Select::make('category_id')
                     ->relationship(
                         'category',
                         'name',
-                        fn($query) => $query->where('user_id', filament()->auth()->id())
+                        fn ($query) => $query->where('user_id', filament()->auth()->id())
                     ),
                 Select::make('budget_id')
                     ->relationship(
                         'budget',
                         'name',
-                        fn($query) => $query->where('user_id', filament()->auth()->id())
+                        fn ($query) => $query->where('user_id', filament()->auth()->id())
                     ),
 
                 Textarea::make('note')
-                    ->columnSpanFull()
+                    ->columnSpanFull(),
             ]);
     }
 }

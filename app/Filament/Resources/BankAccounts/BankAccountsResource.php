@@ -36,7 +36,7 @@ class BankAccountsResource extends Resource
 
                 TextInput::make('balance')
                     ->required()
-                    ->default(0)
+                    ->default(0),
 
             ]);
     }
@@ -51,7 +51,7 @@ class BankAccountsResource extends Resource
 
                 TextColumn::make('balance')
                     ->sortable()
-                    ->money('PHP')
+                    ->money('PHP'),
 
             ])
             ->filters([

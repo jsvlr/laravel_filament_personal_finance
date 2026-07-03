@@ -3,8 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\BankAccount;
-use App\Models\User;
-
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,7 +19,7 @@ class BankAccountFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'balance' => fake()->numberBetween(9999, 99999)
+            'balance' => fake()->numberBetween(9999, 99999),
         ];
     }
 }

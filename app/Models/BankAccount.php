@@ -2,35 +2,39 @@
 
 namespace App\Models;
 
+use App\Casts\MoneyCast;
+use Database\Factories\BankAccountFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Override;
 
 class BankAccount extends Model
 {
-    /** @use HasFactory<\Database\Factories\BankAccountFactory> */
+    /** @use HasFactory<BankAccountFactory> */
     use HasFactory;
 
     protected $fillable = [
         'user_id',
         'name',
-        'balance'
+        'balance',
     ];
 
     #[Override]
     protected function casts(): array
     {
         return [
-            'balance' => \App\Casts\MoneyCast::class
+            'balance' => MoneyCast::class,
         ];
     }
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function transactions(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class);
     }

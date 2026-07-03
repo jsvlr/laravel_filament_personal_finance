@@ -4,8 +4,8 @@ use App\Filament\Resources\BankAccounts\Pages\ManageBankAccounts;
 use App\Models\BankAccount;
 use App\Models\User;
 use Filament\Actions\Testing\TestAction;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Livewire\Livewire;
+
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
@@ -27,12 +27,10 @@ it('can list bank accounts', function () {
         ->assertCanSeeTableRecords([$bank_account]);
 });
 
-
 it('cannot see other user bank accounts', function () {
     $user = User::factory()->create();
     $other_user = User::factory()->create();
     $other_bank_account = BankAccount::factory()->for($other_user)->create();
-
 
     Livewire::actingAs($user)
         ->test(ManageBankAccounts::class)
@@ -55,7 +53,7 @@ it('can create bank account', function () {
     assertDatabaseHas('bank_accounts', [
         'user_id' => $user->id,
         'name' => 'My Main Bank Account',
-        'balance' => 5729400
+        'balance' => 5729400,
     ]);
 });
 
@@ -63,7 +61,7 @@ it('can update bank account', function () {
     $user = User::factory()->create();
     $bank_account = BankAccount::factory()->for($user)->create([
         'name' => 'Old bank name',
-        'balance' => 5000
+        'balance' => 5000,
     ]);
 
     Livewire::actingAs($user)
@@ -71,7 +69,7 @@ it('can update bank account', function () {
         ->mountAction(TestAction::make('edit')->table($bank_account))
         ->fillForm([
             'name' => 'New bank name',
-            'balance' => '400.00'
+            'balance' => '400.00',
         ])
         ->callMountedAction()
         ->assertHasNoFormErrors();
@@ -79,7 +77,7 @@ it('can update bank account', function () {
     assertDatabaseHas('bank_accounts', [
         'id' => $bank_account->id,
         'name' => 'New bank name',
-        'balance' => 40000
+        'balance' => 40000,
     ]);
 });
 
@@ -94,6 +92,6 @@ it('can delete bank account', function () {
         ->assertHasNoTableActionErrors();
 
     assertDatabaseMissing('bank_accounts', [
-        'id' => $bank_account->id
+        'id' => $bank_account->id,
     ]);
 });

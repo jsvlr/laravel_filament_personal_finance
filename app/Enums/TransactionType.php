@@ -3,19 +3,19 @@
 namespace App\Enums;
 
 use BackedEnum;
-use Filament\Support\Contracts\HasLabel;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
+use Filament\Support\Contracts\HasLabel;
 use Illuminate\Contracts\Support\Htmlable;
 use Override;
 
-enum TransactionType: string implements HasLabel, HasColor, HasIcon
+enum TransactionType: string implements HasColor, HasIcon, HasLabel
 {
     case Expense = 'expense';
-    case Income  = 'income';
+    case Income = 'income';
 
     #[Override]
-    public function getLabel(): string|\Illuminate\Contracts\Support\Htmlable|null
+    public function getLabel(): string|Htmlable|null
     {
         return match ($this) {
             self::Expense => 'Expense',

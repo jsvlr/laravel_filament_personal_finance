@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Budgets;
 
+use App\Enums\BudgetType;
 use App\Filament\Resources\Budgets\Pages\ManageBudgets;
 use App\Models\Budget;
 use BackedEnum;
@@ -9,14 +10,13 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use App\Enums\BudgetType;
 use Illuminate\Database\Eloquent\Builder;
 use Override;
 
@@ -24,7 +24,7 @@ class BudgetResource extends Resource
 {
     protected static ?string $model = Budget::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::CurrencyDollar;
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -42,7 +42,7 @@ class BudgetResource extends Resource
 
                 TextInput::make('amount')
                     ->required()
-                    ->numeric()
+                    ->numeric(),
             ]);
     }
 
@@ -61,7 +61,7 @@ class BudgetResource extends Resource
 
                 TextColumn::make('type')
                     ->badge()
-                    ->color(fn(BudgetType $state): string => match ($state) {
+                    ->color(fn (BudgetType $state): string => match ($state) {
                         BudgetType::Reset => 'success',
                         BudgetType::Rollover => 'warning'
                     }),

@@ -2,13 +2,17 @@
 
 namespace App\Models;
 
+use App\Casts\MoneyCast;
+use App\Enums\TransactionType;
+use Database\Factories\TransactionFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Override;
 
 class Transaction extends Model
 {
-    /** @use HasFactory<\Database\Factories\TransactionFactory> */
+    /** @use HasFactory<TransactionFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -20,33 +24,34 @@ class Transaction extends Model
         'description',
         'amount',
         'note',
-        'date'
+        'date',
     ];
 
     #[Override]
     protected function casts(): array
     {
         return [
-            'amount' => \App\Casts\MoneyCast::class
+            'amount' => MoneyCast::class,
+            'type' => TransactionType::class,
         ];
     }
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function bankAccount(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function bankAccount(): BelongsTo
     {
         return $this->belongsTo(BankAccount::class);
     }
 
-    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function budget(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function budget(): BelongsTo
     {
         return $this->belongsTo(Budget::class);
     }

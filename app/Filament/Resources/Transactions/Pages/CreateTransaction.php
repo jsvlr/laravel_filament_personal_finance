@@ -14,6 +14,7 @@ class CreateTransaction extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['user_id'] = filament()->auth()->id();
+
         return $data;
     }
 

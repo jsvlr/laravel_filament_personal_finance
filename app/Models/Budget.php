@@ -2,38 +2,42 @@
 
 namespace App\Models;
 
+use App\Casts\MoneyCast;
+use App\Enums\BudgetType;
+use Database\Factories\BudgetFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Override;
 
 class Budget extends Model
 {
-    /** @use HasFactory<\Database\Factories\BudgetFactory> */
+    /** @use HasFactory<BudgetFactory> */
     use HasFactory;
 
     protected $fillable = [
         'user_id',
         'name',
         'amount',
-        'type'
+        'type',
     ];
-
 
     #[Override]
     protected function casts(): array
     {
         return [
-            'type' => \App\Enums\BudgetType::class,
-            'amount' => \App\Casts\MoneyCast::class
+            'type' => BudgetType::class,
+            'amount' => MoneyCast::class,
         ];
     }
 
-    public function users(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function users(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function transactions(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class);
     }

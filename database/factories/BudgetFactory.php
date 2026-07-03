@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Enums\BudgetType;
 use App\Models\Budget;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,7 +20,10 @@ class BudgetFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => User::factory(),
+            'name' => fake()->sentence(1),
+            'amount' => fake()->numberBetween(9999, 99999),
+            'type' => fake()->randomElement(BudgetType::class),
         ];
     }
 }

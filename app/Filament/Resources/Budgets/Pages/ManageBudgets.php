@@ -16,8 +16,9 @@ class ManageBudgets extends ManageRecords
             CreateAction::make()
                 ->mutateDataUsing(function (array $data): array {
                     $data['user_id'] = filament()->auth()->id();
+
                     return $data;
-                })
+                }),
         ];
     }
 }
