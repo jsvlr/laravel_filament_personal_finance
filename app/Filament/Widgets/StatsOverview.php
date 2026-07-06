@@ -48,6 +48,10 @@ class StatsOverview extends StatsOverviewWidget
         $total_cash_flow = Number::currency(self::calculateCashFlow($transactions), $user->currency, $user->locale);
         $stats = [];
 
+        foreach ($accounts as $account) {
+            $stats[] = Stat::make($account->name, Number::currency($account->balance, $user->currency, $user->locale));
+        }
+
         $stats[] = Stat::make('Total Balance', $total_balance)
             ->description('Current account balance')
             ->descriptionIcon(Heroicon::OutlinedWallet, IconPosition::Before)
