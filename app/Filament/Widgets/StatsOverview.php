@@ -11,12 +11,23 @@ use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Number;
+use Override;
 
 class StatsOverview extends StatsOverviewWidget
 {
 
+
     use InteractsWithPageFilters;
 
+    #[Override]
+    protected function getColumns(): int|array|null
+    {
+        return [
+            'sm' => 1,
+            'md' => 2,
+            'xl' => 3,
+        ];
+    }
     protected function getStats(): array
     {
 
@@ -65,7 +76,6 @@ class StatsOverview extends StatsOverviewWidget
             )
             ->color($total_cash_flow >= 0 ? 'success' : 'danger')
             ->icon(Heroicon::OutlinedScale);
-
 
         return $stats;
     }
