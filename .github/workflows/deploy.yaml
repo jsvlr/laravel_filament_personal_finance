@@ -17,6 +17,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Debug Secrets presence
+        run: |
+          if [ -z "${{ secrets.SERVER_HOST }}" ]; then echo "HOST IS EMPTY"; fi
+          if [ -z "${{ secrets.SERVER_USER }}" ]; then echo "SERVER USER IS EMPTY"; fi
+          if [ -z "${{ secrets.SERVER_SSH_KEY }}" ]; then echo "SERVER SSH KEY IS EMPTY"; fi
+
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
         with:
